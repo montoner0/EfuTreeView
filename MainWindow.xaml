@@ -1,0 +1,63 @@
+﻿<Window
+    x:Class="EfuTreeView.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:EfuTreeView"
+    xmlns:vm="clr-namespace:EfuTreeView.ViewModel"
+    Title="efu tree view"
+    Width="300"
+    Height="341"
+    FontFamily="Tahoma"
+    ResizeMode="CanResizeWithGrip"
+    WindowStyle="ThreeDBorderWindow">
+
+    <DockPanel LastChildFill="True">
+        <Menu
+            Grid.Column="0"
+            Grid.ColumnSpan="4"
+            DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <MenuItem Command="" Header="Open..." Click="MenuItemOpen_Click" />
+                <Separator />
+                <MenuItem Header="Exit" Click="MenuItemExit_Click" />
+            </MenuItem>
+        </Menu>
+        <TextBlock DockPanel.Dock="Bottom" Text="{Binding SelectedInfo}" Margin="3,3,3,3" ></TextBlock>
+        <TreeView ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  ItemsSource="{Binding Nodes}">
+            <!--<TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Nodes}" DataType="{x:Type local:IFileTreeNode}">
+                    <TextBlock Text="{Binding Path=Name}"/>
+                    --><!--<TreeViewItem Header="{Binding Name}" />--><!--
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>-->
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <!--<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />-->
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    <!--<Setter Property="FontWeight" Value="Normal" />-->
+                    <!--<Style.Triggers>-->
+                        <!--<Trigger Property="IsSelected" Value="True">-->
+                            <!--<Setter Property="FontWeight" Value="Bold" />-->
+                        <!--</Trigger>-->
+                    <!--</Style.Triggers>-->
+                </Style>
+            </TreeView.ItemContainerStyle>
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type local:FolderNode}" ItemsSource="{Binding Nodes}">
+                    <StackPanel Orientation="Horizontal">
+                    <Image Width="16" Height="16" Margin="3,0" Source="Images\Folder.png" />
+                    <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+
+                <HierarchicalDataTemplate DataType="{x:Type local:FileNode}">
+                    <StackPanel Orientation="Horizontal">
+                    <Image Width="16" Height="16" Margin="3,0" Source="Images\File.png" />
+                    <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+        </TreeView>
+    </DockPanel>
+</Window>
