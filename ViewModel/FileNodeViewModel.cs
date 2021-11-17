@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using EfuTreeView.Model;
 
 namespace EfuTreeView.ViewModel
 {
@@ -8,11 +9,9 @@ namespace EfuTreeView.ViewModel
     {
         private readonly FileNode _file;
 
-        public FileNodeViewModel(FileNode file, FolderNodeViewModel parent) : base(parent)
+        public FileNodeViewModel(FolderNodeViewModel parent, FileNode file) : base(parent, file.Name)
         {
             _file = file;
         }
-
-        public string Name => _file.Name;
     }
 }

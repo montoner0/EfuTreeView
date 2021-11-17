@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ViewModel\TreeViewModelOld.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Images\File.png" />
     <None Remove="Images\Folder.png" />
   </ItemGroup>

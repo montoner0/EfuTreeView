@@ -27,7 +27,7 @@ namespace EfuTreeView.Helpers
             throw new ArgumentException($"Type {typeof(T)} is not numeric");
         }
 
-        public static bool IsNumericType(this object o) => new List<Type>
+        public static bool IsNumericType(this Type o) => new List<Type>
             {
                 typeof(int),
                 typeof(long),
@@ -40,9 +40,9 @@ namespace EfuTreeView.Helpers
                 typeof(float),
                 typeof(sbyte),
                 typeof(byte)
-            }.Contains(o.GetType());
+            }.Contains(o);
         public static decimal KB<T>(this T kb) where T : struct, IComparable, IComparable<T>, IConvertible, IEquatable<T>, IFormattable
-            => Convert.ToDecimal(kb) * 1024;
+            => typeof(T).IsNumericType() ? Convert.ToDecimal(kb) * 1024 : throw new ArgumentException($"Type {typeof(T)} is not numeric");
         public static decimal MB<T>(this T mb) where T : struct, IComparable, IComparable<T>, IConvertible, IEquatable<T>, IFormattable
             => mb.KB() * 1024;
         public static decimal GB<T>(this T gb) where T : struct, IComparable, IComparable<T>, IConvertible, IEquatable<T>, IFormattable

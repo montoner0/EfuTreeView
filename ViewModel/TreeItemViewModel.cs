@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using EfuTreeView.Model;
 
 namespace EfuTreeView.ViewModel
 {
-    public class TreeItemViewModel : ViewModelBase
+    public class TreeItemViewModel : ViewModelBase, ITreeItemViewModel
     {
         private string _selected;
         private bool _isSelected;
-        private readonly TreeItemViewModel _parent;
-        private readonly ObservableCollection<TreeItemViewModel> _nodes;
+        private readonly ITreeItemViewModel _parent;
+        private readonly string _name;
 
-        public TreeItemViewModel(TreeItemViewModel parent)
+        public TreeItemViewModel(ITreeItemViewModel parent, string name)
         {
             _parent = parent;
-            _nodes = parent.Nodes;
+            _name = name;
         }
 
         public string SelectedInfo
@@ -46,12 +47,12 @@ namespace EfuTreeView.ViewModel
         }
 
         //public string Name => _parent.Name;
-        public TreeItemViewModel Parent => _parent;
+        public ITreeItemViewModel Parent => _parent;
 
-        public ObservableCollection<TreeItemViewModel> Nodes => _nodes;
+        public virtual ObservableCollection<ITreeItemViewModel> Nodes => null;
 
-        protected virtual void LoadChildren()
-        {
-        }
+        public string Name => _name;
+
+        protected virtual void LoadChildren() { }
     }
 }

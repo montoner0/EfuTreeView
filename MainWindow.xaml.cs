@@ -23,7 +23,7 @@ namespace EfuTreeView
             //UseLayoutRounding = true;
             // Добавляем обработчик для всех кнопок на гриде
             //viewModel=
-            _viewModel = new TreeViewModel();
+            _viewModel = new TreeViewModel(EfuParser.LoadDummyData());
             DataContext = _viewModel;
         }
 
