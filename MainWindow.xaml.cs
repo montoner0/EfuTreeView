@@ -10,7 +10,7 @@ namespace EfuTreeView
 {
     public partial class MainWindow : Window
     {
-        private readonly TreeViewModel _viewModel;
+        private FolderNodeViewModel _viewModel;
 
         public MainWindow()
         {
@@ -21,16 +21,13 @@ namespace EfuTreeView
             //SetValue(TextOptions.TextRenderingModeProperty, TextRenderingMode.Aliased);
             //SetValue(TextOptions.TextFormattingModeProperty, TextFormattingMode.Display);
             //UseLayoutRounding = true;
-            // Добавляем обработчик для всех кнопок на гриде
-            //viewModel=
-            _viewModel = new TreeViewModel(EfuParser.LoadDummyData());
+#if DEBUG
+            _viewModel = new FolderNodeViewModel(EfuParser.LoadDummyData());
             DataContext = _viewModel;
+#endif
         }
 
-        private void MenuItemExit_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
+        private void MenuItemExit_Click(object sender, RoutedEventArgs e) => Application.Current.Shutdown();
 
         private void MenuItemOpen_Click(object sender, RoutedEventArgs e)
         {
@@ -43,7 +40,8 @@ namespace EfuTreeView
             };
 
             if (ofd.ShowDialog(this) == true) {
-                _viewModel.Load(ofd.FileName);
+                _viewModel = new FolderNodeViewModel(EfuParser.BuildEfuData(ofd.FileName).GetNodes());
+                DataContext = _viewModel;
             }
         }
     }

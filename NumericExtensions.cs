@@ -15,7 +15,7 @@ namespace EfuTreeView.Helpers
                 var prefixes = new[] { "", "K", "M", "G", "T", "E", "Z" };
                 var i = 0;
 
-                while (bytes2 > divisor && i < prefixes.Length - 1) {
+                while (bytes2 >= divisor && i < prefixes.Length - 1) {
                     bytes2 /= divisor;
                     i++;
                 }

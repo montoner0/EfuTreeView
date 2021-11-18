@@ -16,8 +16,7 @@ namespace EfuTreeView
 {
     public class EfuParser
     {
-        private readonly List<IFileTreeNode> _treeData = new List<IFileTreeNode>();
-        private readonly IOrderedEnumerable<EfuItem> _efuItems;
+        private readonly List<IFileTreeNode> _treeData;
 
         public static EfuParser BuildEfuData(string filePath)
         {
@@ -26,21 +25,11 @@ namespace EfuTreeView
             csv.Context.RegisterClassMap<EfuItemMap>();
             var efuItems = csv.GetRecords<EfuItem>();
             return new EfuParser(BuildTree(efuItems));
-
-            //var lines = await File.ReadAllTextAsync(filePath, System.Text.Encoding.UTF8).ConfigureAwait(false);
-
-            //return new EfuParser(lines);
         }
 
-        public IList<IFileTreeNode> GetNodes()
-        {
-            return _treeData;
-        }
+        public IList<IFileTreeNode> GetNodes() => _treeData;
 
-        public EfuParser(List<IFileTreeNode> data)
-        {
-            _treeData = data;
-        }
+        public EfuParser(List<IFileTreeNode> data) => _treeData = data;
 
         private static List<IFileTreeNode> BuildTree(IEnumerable<EfuItem> items)
         {
@@ -54,13 +43,14 @@ namespace EfuTreeView
                                             DateCreated = efu.DateCreated ?? default,
                                             DateModified = efu.DateModified ?? default,
                                             Nodes = BuildTree(g.Where(efu => efu.Filename.Length > g.Key.Length + 1)
-                                                                .Select(efu => { efu.Filename = efu.Filename[(g.Key.Length + 1)..]; return efu; }))
+                                                               .Select(efu => { efu.Filename = efu.Filename[(g.Key.Length + 1)..]; return efu; }))
                                         }
                                         : new FileNode {
                                             Name = g.Key,
                                             DateCreated = efu?.DateCreated ?? default,
                                             DateModified = efu?.DateModified ?? default,
-                                            Type = efu?.Attributes ?? 0
+                                            Type = efu?.Attributes ?? 0,
+                                            Size = efu?.Size
                                         } as IFileTreeNode;
                             }));
         }
@@ -96,31 +86,9 @@ namespace EfuTreeView
                         new FileNode { Name ="movie.mp4", Size=(ulong)3.4.GB(), DateModified=new DateTime(2017,7,9) }
                     }
                 },
-                new FileNode { Name="VD" },
+                new FileNode { Name="VD", Type=FileAttributes.ReadOnly|FileAttributes.Hidden },
                 new FileNode { Name="VD2" },
                 new FileNode { Name="VD3" }
             };
-
-        //public void Load(string filePath)
-        //{
-        //    filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
-        //    var efu = BuildEfuData(filePath);
-        //    Nodes = new ObservableCollection<IFileTreeNode>(efu.GetNodes());
-        //}
-        private List<IFileTreeNode> BuildTree(IEnumerable<string> strings)
-        {
-            return new List<IFileTreeNode>(
-              from s in strings
-              let split = s.Split("/")
-              group s by s.Split("/")[0] into g  // Group by first component (before /)
-              select new FolderNode {
-                  Name = g.Key,
-                  Nodes = BuildTree(            // Recursively build children
-                                      from s in g
-                                      where s.Length > g.Key.Length + 1
-                                      select s.Substring(g.Key.Length + 1)) // Select remaining components
-              }
-              );
-        }
     }
 }

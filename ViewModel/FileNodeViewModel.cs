@@ -7,11 +7,15 @@ namespace EfuTreeView.ViewModel
 {
     public class FileNodeViewModel : TreeItemViewModel
     {
-        private readonly FileNode _file;
+        public FileNodeViewModel(FolderNodeViewModel parent, FileNode file) :
+            base(parent, new NodeData {
+                Name = file.Name,
+                DateCreated = file.DateCreated,
+                DateModified = file.DateModified,
+                Size = file.Size,
+                Attributes = file.Type
+            })
 
-        public FileNodeViewModel(FolderNodeViewModel parent, FileNode file) : base(parent, file.Name)
-        {
-            _file = file;
-        }
+        { }
     }
 }

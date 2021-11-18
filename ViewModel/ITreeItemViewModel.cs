@@ -6,5 +6,6 @@ namespace EfuTreeView.ViewModel
     {
         ObservableCollection<ITreeItemViewModel> Nodes { get; }
         string Name { get; }
+        string SelectedInfo { get; set; }
     }
 }
