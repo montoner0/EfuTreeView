@@ -1,2 +1,3 @@
 # EfuTreeView
-Simplistic tree-viewer for Everything's .efu files
+A simplistic tree-viewer for [Everything's](https://www.voidtools.com/) .efu files.
+![](img/window.png)
