@@ -22,7 +22,7 @@ namespace EfuTreeView.Helpers
 
                 var prefix = prefixes[i < prefixes.Length - 1 ? i : prefixes.Length - 1];
 
-                return $"{bytes2:N3} {prefix}{(Iec && prefix.Length > 0 ? "i" : "")}B";
+                return $"{bytes2:0.###} {prefix}{(Iec && prefix.Length > 0 ? "i" : "")}B";
             }
             throw new ArgumentException($"Type {typeof(T)} is not numeric");
         }
