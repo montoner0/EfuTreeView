@@ -10,6 +10,7 @@ namespace EfuTreeView
 {
     public partial class MainWindow : Window
     {
+        private readonly string _appName = "EFU Tree Viewer";
         private FolderNodeViewModel _viewModel;
 
         public MainWindow()
@@ -21,6 +22,7 @@ namespace EfuTreeView
             //SetValue(TextOptions.TextRenderingModeProperty, TextRenderingMode.Aliased);
             //SetValue(TextOptions.TextFormattingModeProperty, TextFormattingMode.Display);
             //UseLayoutRounding = true;
+            Title = _appName;
 #if DEBUG
             _viewModel = new FolderNodeViewModel(EfuParser.LoadDummyData());
             DataContext = _viewModel;
@@ -40,6 +42,7 @@ namespace EfuTreeView
             };
 
             if (ofd.ShowDialog(this) == true) {
+                Title = $"{_appName} - {ofd.FileName}";
                 _viewModel = new FolderNodeViewModel(EfuParser.BuildEfuData(ofd.FileName).GetNodes());
                 DataContext = _viewModel;
             }
