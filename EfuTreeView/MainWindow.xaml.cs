@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 using System.Windows.Media;
 using EfuTreeView.ViewModel;
 using Microsoft.Win32;
@@ -24,7 +21,8 @@ namespace EfuTreeView
             //UseLayoutRounding = true;
             Title = _appName;
 #if DEBUG
-            _viewModel = new FolderNodeViewModel(EfuParser.LoadDummyData());
+            var dummyData = new DummyEfuParser();
+            _viewModel = new FolderNodeViewModel(dummyData.GetNodes());
             DataContext = _viewModel;
 #endif
         }
