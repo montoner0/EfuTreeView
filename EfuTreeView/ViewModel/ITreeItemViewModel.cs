@@ -4,8 +4,8 @@ namespace EfuTreeView.ViewModel
 {
     public interface ITreeItemViewModel
     {
-        ObservableCollection<ITreeItemViewModel> Nodes { get; }
+        ObservableCollection<ITreeItemViewModel>? Nodes { get; }
         string Name { get; }
-        string SelectedInfo { get; set; }
+        string? SelectedInfo { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace EfuTreeView
 {
     public class EfuItem
     {
-        public string Filename { get; set; }
+        public string Filename { get; set; } = "";
         public ulong? Size { get; set; }
         public DateTime? DateModified { get; set; }
         public DateTime? DateCreated { get; set; }

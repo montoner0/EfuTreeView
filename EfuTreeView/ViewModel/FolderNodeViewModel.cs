@@ -9,7 +9,7 @@ namespace EfuTreeView.ViewModel
 {
     public class FolderNodeViewModel : TreeItemViewModel
     {
-        protected readonly ObservableCollection<ITreeItemViewModel> _nodes;
+        protected readonly ObservableCollection<ITreeItemViewModel>? _nodes;
 
         public FolderNodeViewModel(IList<IFileTreeNode> nodes) : base(null, null) => _nodes = PopulateNodes(nodes);
 
@@ -20,8 +20,8 @@ namespace EfuTreeView.ViewModel
                 DateModified = folder.DateModified
             }) => _nodes = PopulateNodes(folder.Nodes);
 
-        public override ObservableCollection<ITreeItemViewModel> Nodes => _nodes;
-        private ObservableCollection<ITreeItemViewModel> PopulateNodes(IList<IFileTreeNode> nodes)
+        public override ObservableCollection<ITreeItemViewModel>? Nodes => _nodes;
+        private ObservableCollection<ITreeItemViewModel>? PopulateNodes(IList<IFileTreeNode> nodes)
         {
             return nodes is null
                     ? null

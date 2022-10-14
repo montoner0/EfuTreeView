@@ -5,9 +5,9 @@ namespace EfuTreeView.ViewModel
 {
     public class ViewModelBase : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        protected void RaisePropertyChanged([CallerMemberName] string property = null)
+        protected void RaisePropertyChanged([CallerMemberName] string? property = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }

@@ -1,36 +1,32 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.ObjectModel;
 using EfuTreeView.Helpers;
-using EfuTreeView.Model;
 
 namespace EfuTreeView.ViewModel
 {
     public class TreeItemViewModel : ViewModelBase, ITreeItemViewModel
     {
-        private string _selected;
+        private string? _selected;
         private bool _isSelected;
-        private readonly ITreeItemViewModel _parent;
-        private readonly NodeData _nodeData;
+        private readonly NodeData? _nodeData;
 
-        public TreeItemViewModel(ITreeItemViewModel parent, NodeData nodeData)
+        public TreeItemViewModel(ITreeItemViewModel? parent, NodeData? nodeData)
         {
-            _parent = parent;
+            Parent = parent;
             _nodeData = nodeData;
         }
 
-        public string SelectedInfo
+        public string? SelectedInfo
         {
             get => _selected;
             set {
-                if (_parent == null) {
+                if (Parent == null) {
                     if (_selected != value) {
                         _selected = value;
                         RaisePropertyChanged();
                     }
-                } else
-                    _parent.SelectedInfo = value;
+                } else {
+                    Parent.SelectedInfo = value;
+                }
             }
         }
 
@@ -49,13 +45,13 @@ namespace EfuTreeView.ViewModel
         }
 
         public virtual string NodeInfo =>
-            $"{_nodeData.Size.GetValueOrDefault().FormatBytes(false),20} | {_nodeData.DateModified} | {_nodeData.DateCreated}{(_nodeData.Attributes == 0 ? "" : $" | {_nodeData.Attributes}")}";
+            $"{_nodeData?.Size.GetValueOrDefault().FormatBytes(false),20} | {_nodeData?.DateModified} | {_nodeData?.DateCreated}{(_nodeData?.Attributes == 0 ? "" : $" | {_nodeData?.Attributes}")}";
 
-        public ITreeItemViewModel Parent => _parent;
+        public ITreeItemViewModel? Parent { get; }
 
-        public virtual ObservableCollection<ITreeItemViewModel> Nodes => null;
+        public virtual ObservableCollection<ITreeItemViewModel>? Nodes => null;
 
-        public string Name => _nodeData.Name;
+        public string Name => _nodeData?.Name ?? "";
 
         protected virtual void LoadChildren() { }
     }
