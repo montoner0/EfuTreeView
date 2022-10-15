@@ -37,7 +37,7 @@ namespace EfuTreeView
                                             Name = g.Key,
                                             DateCreated = efu.DateCreated ?? default,
                                             DateModified = efu.DateModified ?? default,
-                                            Nodes = BuildTree(g.Where(efu => efu.Filename.Contains(g.Key))
+                                            Nodes = BuildTree(g.Where(efu => efu.Filename.Contains(g.Key) && efu.Filename.Length > g.Key.Length + 1)
                                                                .Select(efu => { efu.Filename = efu.Filename[(g.Key.Length + 1)..]; return efu; }))
                                         }
                                         : new FileNode {
