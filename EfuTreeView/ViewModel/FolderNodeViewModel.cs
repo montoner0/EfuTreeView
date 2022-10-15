@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using EfuTreeView.Model;
 
 namespace EfuTreeView.ViewModel
@@ -28,7 +27,7 @@ namespace EfuTreeView.ViewModel
                     : new ObservableCollection<ITreeItemViewModel>(nodes.Select(n => n switch {
                         FileNode file => new FileNodeViewModel(this, file),
                         FolderNode dir => new FolderNodeViewModel(this, dir) as ITreeItemViewModel,
-                        _ => throw new ArgumentException("Unknown node type", nameof(nodes))
+                        _ => throw new ArgumentException("Unknown node type", nameof(n))
                     }));
         }
     }

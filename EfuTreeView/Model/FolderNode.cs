@@ -7,7 +7,9 @@ namespace EfuTreeView.Model
     public class FolderNode : IFileTreeNode
     {
         public string Name { get; set; } = "";
+
         public FileAttributes Type => FileAttributes.Directory;
+
         public List<IFileTreeNode> Nodes { get; set; } = new();
 
         public DateTime DateModified { get; set; }
