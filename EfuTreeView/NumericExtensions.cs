@@ -11,7 +11,7 @@ namespace EfuTreeView.Helpers
             if (typeof(T).IsNumericType()) {
                 var bytes2 = Convert.ToDecimal(bytes);
                 var divisor = Iec ? 1024 : 1000;
-                var prefixes = new[] { "", "K", "M", "G", "T", "E", "Z" };
+                var prefixes = new[] { "", "K", "M", "G", "T", "P", "E", "Z" };
                 var i = 0;
 
                 while (bytes2 >= divisor && i < prefixes.Length - 1) {
@@ -40,13 +40,22 @@ namespace EfuTreeView.Helpers
                 typeof(sbyte),
                 typeof(byte)
             }.Contains(o);
-        public static decimal KB<T>(this T kb) where T : struct, IComparable, IComparable<T>, IConvertible, IEquatable<T>, IFormattable
+        public static decimal KiB<T>(this T kb) where T : struct, IComparable, IComparable<T>, IConvertible, IEquatable<T>, IFormattable
             => typeof(T).IsNumericType() ? Convert.ToDecimal(kb) * 1024 : throw new ArgumentException($"Type {typeof(T)} is not numeric");
+        public static decimal MiB<T>(this T mb) where T : struct, IComparable, IComparable<T>, IConvertible, IEquatable<T>, IFormattable
+            => mb.KiB() * 1024;
+        public static decimal GiB<T>(this T gb) where T : struct, IComparable, IComparable<T>, IConvertible, IEquatable<T>, IFormattable
+            => gb.MiB() * 1024;
+        public static decimal TiB<T>(this T tb) where T : struct, IComparable, IComparable<T>, IConvertible, IEquatable<T>, IFormattable
+            => tb.GiB() * 1024;
+
+        public static decimal KB<T>(this T kb) where T : struct, IComparable, IComparable<T>, IConvertible, IEquatable<T>, IFormattable
+            => typeof(T).IsNumericType() ? Convert.ToDecimal(kb) * 1000 : throw new ArgumentException($"Type {typeof(T)} is not numeric");
         public static decimal MB<T>(this T mb) where T : struct, IComparable, IComparable<T>, IConvertible, IEquatable<T>, IFormattable
-            => mb.KB() * 1024;
+            => mb.KB() * 1000;
         public static decimal GB<T>(this T gb) where T : struct, IComparable, IComparable<T>, IConvertible, IEquatable<T>, IFormattable
-            => gb.MB() * 1024;
+            => gb.MB() * 1000;
         public static decimal TB<T>(this T tb) where T : struct, IComparable, IComparable<T>, IConvertible, IEquatable<T>, IFormattable
-            => tb.GB() * 1024;
+            => tb.GB() * 1000;
     }
 }

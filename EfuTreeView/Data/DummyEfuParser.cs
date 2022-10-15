@@ -20,17 +20,17 @@ namespace EfuTreeView
                     Name ="C:",
                     Nodes = new List<IFileTreeNode>
                     {
-                        new FileNode { Name="pagefile.sys", Size=(ulong)8.GB(), DateModified=new DateTime(2011,12,15) },
-                        new FileNode { Name="hiberfil.sys", Size=(ulong)5.GB(), DateModified=new DateTime(2011,12,15) },
+                        new FileNode { Name="pagefile.sys", Size=(ulong)8.GiB(), DateModified=new DateTime(2011,12,15) },
+                        new FileNode { Name="hiberfil.sys", Size=(ulong)5.GiB(), DateModified=new DateTime(2011,12,15) },
                         new FolderNode
                         {
                             Name ="Acme",
                             Nodes = new List<IFileTreeNode>
                             {
-                                new FileNode { Name="acme.exe", Size=(ulong)15.MB(), DateModified=new DateTime(2001,1,5) },
-                                new FileNode { Name="acme.dll", Size=(ulong)1.MB(), DateModified=new DateTime(2001,1,5) },
-                                new FileNode { Name="readme.txt", Size=(ulong)1.KB(), DateModified=new DateTime(2002,10,2) },
-                                new FileNode { Name="acme.png", Size=(ulong)15.KB(), DateModified=new DateTime(2001,10,4) },
+                                new FileNode { Name="acme.exe", Size=(ulong)15.MiB(), DateModified=new DateTime(2001,1,5) },
+                                new FileNode { Name="acme.dll", Size=(ulong)1.MiB(), DateModified=new DateTime(2001,1,5) },
+                                new FileNode { Name="readme.txt", Size=(ulong)1.KiB(), DateModified=new DateTime(2002,10,2) },
+                                new FileNode { Name="acme.png", Size=(ulong)15.KiB(), DateModified=new DateTime(2001,10,4) },
                             }
                         }
                     }
@@ -40,9 +40,9 @@ namespace EfuTreeView
                     Name ="D:",
                     Nodes = new List<IFileTreeNode>
                     {
-                        new FileNode { Name="image.jpg", Size=(ulong)5.MB(), DateModified=new DateTime(2017,10,3) },
-                        new FileNode { Name="music.mp3", Size=(ulong)15.MB(), DateModified=new DateTime(2014,4,3) },
-                        new FileNode { Name ="movie.mp4", Size=(ulong)3.4.GB(), DateModified=new DateTime(2017,7,9) }
+                        new FileNode { Name="image.jpg", Size=(ulong)5.MiB(), DateModified=new DateTime(2017,10,3) },
+                        new FileNode { Name="music.mp3", Size=(ulong)15.MiB(), DateModified=new DateTime(2014,4,3) },
+                        new FileNode { Name ="movie.mp4", Size=(ulong)3.4.GiB(), DateModified=new DateTime(2017,7,9) }
                     }
                 },
                 new FileNode { Name="VD", Type=FileAttributes.ReadOnly|FileAttributes.Hidden },
