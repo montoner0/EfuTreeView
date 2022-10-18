@@ -6,7 +6,7 @@ namespace EfuTreeView
 {
     public class EfuItem
     {
-        public string Filename { get; set; } = "";
+        public string Path { get; set; } = "";
 
         public ulong? Size { get; set; }
 
@@ -16,14 +16,14 @@ namespace EfuTreeView
 
         public FileAttributes Attributes { get; set; }
 
-        public override string ToString() => $"{Filename} {Size} {Attributes} {DateModified} {DateCreated}";
+        public override string ToString() => $"{Path} {Size} {Attributes} {DateModified} {DateCreated}";
     }
 
     public class EfuItemMap : ClassMap<EfuItem>
     {
         public EfuItemMap()
         {
-            Map(m => m.Filename);
+            Map(m => m.Path).Name("Filename");
             Map(m => m.Size);
             Map(m => m.Attributes);
             Map(m => m.DateModified).Convert(d => long.TryParse(d.Row.GetField("Date Modified"), out var date)

@@ -29,7 +29,7 @@ namespace EfuTreeView
         private static List<IFileTreeNode> BuildTree(IEnumerable<EfuItem> items)
         {
             return new List<IFileTreeNode>(
-                       items.GroupBy(s => s.Filename.Split("\\")[0])
+                       items.GroupBy(s => s.Path.Split("\\")[0])
                             .Select(g => {
                                 var efu = g.FirstOrDefault();
                                 return efu?.Attributes.HasFlag(FileAttributes.Directory) == true
@@ -37,8 +37,8 @@ namespace EfuTreeView
                                             Name = g.Key,
                                             DateCreated = efu.DateCreated ?? default,
                                             DateModified = efu.DateModified ?? default,
-                                            Nodes = BuildTree(g.Where(efu => efu.Filename.Contains(g.Key) && efu.Filename.Length > g.Key.Length + 1)
-                                                               .Select(efu => { efu.Filename = efu.Filename[(g.Key.Length + 1)..]; return efu; }))
+                                            Nodes = BuildTree(g.Where(efu => efu.Path.Contains(g.Key) && efu.Path.Length > g.Key.Length + 1)
+                                                               .Select(efu => { efu.Path = efu.Path[(g.Key.Length + 1)..]; return efu; }))
                                         }
                                         : new FileNode {
                                             Name = g.Key,
