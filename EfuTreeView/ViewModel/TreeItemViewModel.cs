@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using EfuTreeView.Helpers;
 
 namespace EfuTreeView.ViewModel
@@ -7,7 +8,10 @@ namespace EfuTreeView.ViewModel
     {
         private string? _selected;
         private bool _isSelected;
+        private bool _isExpanded;
         private readonly NodeData? _nodeData;
+
+        protected static ITreeItemViewModel _dummy { get; } = new TreeItemViewModel(null, new() { Name = "Loading Data ..." });
 
         public TreeItemViewModel(ITreeItemViewModel? parent, NodeData? nodeData)
         {
@@ -44,14 +48,36 @@ namespace EfuTreeView.ViewModel
             }
         }
 
+        public bool IsExpanded
+        {
+            get => _isExpanded;
+            set {
+                if (_isExpanded != value) {
+                    _isExpanded = value;
+                    RaisePropertyChanged();
+                    if (_isExpanded && HasDummyChild) {
+                        LoadChildren();
+                        Nodes?.Remove(_dummy);
+                    }
+                }
+            }
+        }
+
+        public bool HasDummyChild => Nodes?.Any(n => n == _dummy) == true;
+
         public virtual string NodeInfo =>
             $"{_nodeData?.Size.GetValueOrDefault().FormatBytes(false),20} | {_nodeData?.DateModified} | {_nodeData?.DateCreated}{(_nodeData?.Attributes == 0 ? "" : $" | {_nodeData?.Attributes}")}";
 
         public ITreeItemViewModel? Parent { get; }
 
-        public virtual ObservableCollection<ITreeItemViewModel>? Nodes => null;
+        public virtual ObservableCollection<ITreeItemViewModel> Nodes { get; } = new();
 
         public string Name => _nodeData?.Name ?? "";
+
+        public NodeData NodeData => _nodeData ?? new();
+
+        public string CurrentPath =>
+            string.IsNullOrEmpty(Parent?.CurrentPath) ? _nodeData?.Name ?? "" : $"{Parent.CurrentPath}\\{_nodeData?.Name}";
 
         protected virtual void LoadChildren() { }
     }

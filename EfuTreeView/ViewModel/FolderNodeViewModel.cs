@@ -8,27 +8,41 @@ namespace EfuTreeView.ViewModel
 {
     public class FolderNodeViewModel : TreeItemViewModel
     {
-        protected readonly ObservableCollection<ITreeItemViewModel>? _nodes;
+        private readonly IFileTree _fileTreeBuilder;
 
-        public FolderNodeViewModel(IList<IFileTreeNode> nodes) : base(null, null) => _nodes = PopulateNodes(nodes);
+        public FolderNodeViewModel(IFileTree fileTreeBuilder) : base(null, null)
+        {
+            _fileTreeBuilder = fileTreeBuilder;
+            foreach (var item in PopulateNodes(_fileTreeBuilder.GetNode())) {
+                Nodes.Add(item);
+            }
+        }
 
-        public FolderNodeViewModel(FolderNodeViewModel parent, FolderNode folder) :
+        private FolderNodeViewModel(FolderNodeViewModel parent, FolderNode folder, IFileTree fileTreeBuilder) :
             base(parent, new NodeData {
                 Name = folder.Name,
                 DateCreated = folder.DateCreated,
                 DateModified = folder.DateModified
-            }) => _nodes = PopulateNodes(folder.Nodes);
-
-        public override ObservableCollection<ITreeItemViewModel>? Nodes => _nodes;
-        private ObservableCollection<ITreeItemViewModel>? PopulateNodes(IList<IFileTreeNode> nodes)
+            })
         {
-            return nodes is null
-                    ? null
-                    : new ObservableCollection<ITreeItemViewModel>(nodes.Select(n => n switch {
-                        FileNode file => new FileNodeViewModel(this, file),
-                        FolderNode dir => new FolderNodeViewModel(this, dir) as ITreeItemViewModel,
-                        _ => throw new ArgumentException("Unknown node type", nameof(n))
-                    }));
+            Nodes.Add(_dummy);
+            _fileTreeBuilder = fileTreeBuilder;
+        }
+
+        protected override void LoadChildren()
+        {
+            foreach (var item in PopulateNodes(_fileTreeBuilder.GetNode(CurrentPath))) {
+                Nodes.Add(item);
+            }
+        }
+
+        private IEnumerable<ITreeItemViewModel> PopulateNodes(IEnumerable<IFileTreeNode> nodes)
+        {
+            return nodes.Select(n => n switch {
+                       FileNode file => new FileNodeViewModel(this, file),
+                       FolderNode dir => new FolderNodeViewModel(this, dir, _fileTreeBuilder) as ITreeItemViewModel,
+                       _ => throw new ArgumentException("Unknown node type", $"{n.GetType()}")
+                   });
         }
     }
 }

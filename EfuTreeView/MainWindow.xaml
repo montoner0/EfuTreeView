@@ -19,11 +19,20 @@
                 <MenuItem Header="Exit" Click="MenuItemExit_Click" />
             </MenuItem>
         </Menu>
+
         <StatusBar DockPanel.Dock="Bottom">
-            <StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Left">
                 <TextBlock Text="{Binding SelectedInfo}" />
+                <!--<TextBlock  Text="{Binding Name}" />-->
             </StatusBarItem>
+            <!--<StatusBarItem HorizontalAlignment="Left">
+                    -->
+            <!--<TextBlock Text="{Binding SelectedInfo}" />-->
+            <!--
+                <TextBlock DataContext="{Binding NodeData}" Text="{Binding Name}" />
+            </StatusBarItem>-->
         </StatusBar>
+
         <TreeView x:Name="treeView"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -31,6 +40,7 @@
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                 </Style>
             </TreeView.ItemContainerStyle>
             <TreeView.Resources>
@@ -47,7 +57,12 @@
                         <TextBlock Text="{Binding Name}" />
                     </StackPanel>
                 </HierarchicalDataTemplate>
+
+                <HierarchicalDataTemplate DataType="{x:Type vm:TreeItemViewModel}">
+                     <TextBlock Text="{Binding Name}" />
+                </HierarchicalDataTemplate>
             </TreeView.Resources>
         </TreeView>
+
     </DockPanel>
 </Window>

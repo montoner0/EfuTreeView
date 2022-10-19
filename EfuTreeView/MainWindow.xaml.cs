@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.IO.Abstractions;
+using System.Linq;
+using System.Windows;
 using System.Windows.Media;
 using EfuTreeView.ViewModel;
 using Microsoft.Win32;
@@ -21,8 +23,7 @@ namespace EfuTreeView
             //UseLayoutRounding = true;
             Title = _appName;
 #if DEBUG
-            var dummyData = new DummyEfuParser();
-            _viewModel = new FolderNodeViewModel(dummyData.GetNodes());
+            _viewModel = new FolderNodeViewModel(new DummyFileTree());
             DataContext = _viewModel;
 #endif
         }
@@ -41,7 +42,8 @@ namespace EfuTreeView
 
             if (ofd.ShowDialog(this) == true) {
                 Title = $"{_appName} - {ofd.FileName}";
-                _viewModel = new FolderNodeViewModel(EfuParser.BuildEfuData(ofd.FileName).GetNodes());
+                var tree = FileTree.BuildFromEfuFile(ofd.FileName, new FileSystem());
+                _viewModel = new FolderNodeViewModel(tree);
                 DataContext = _viewModel;
             }
         }
