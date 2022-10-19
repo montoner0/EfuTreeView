@@ -11,7 +11,7 @@ using EfuTreeView.Model;
 
 namespace EfuTreeView
 {
-    public sealed class FileTreeBuilder //: IEfuParser
+    public sealed class FileTreeBuilder : IFileTreeBuilder
     {
         private readonly IEnumerable<EfuItem> _efuItems;
 
@@ -43,7 +43,7 @@ namespace EfuTreeView
                 ? _efuItems
                 : _efuItems.Where(e => e.Path.StartsWith(nodePath, StringComparison.OrdinalIgnoreCase) && e.Path.Length > nodePath.Length);
 
-            return items.GroupBy(e => e.Path[(nodePath?.Length+1 ?? 0)..].Split("\\")[0]).Select(g => {
+            return items.GroupBy(e => e.Path[(nodePath?.Length + 1 ?? 0)..].Split("\\")[0]).Select(g => {
                 var efu = g.First();
                 return efu.Attributes.HasFlag(FileAttributes.Directory) || efu.Path != $"{nodePath}\\{g.Key}"
                         ? new FolderNode {

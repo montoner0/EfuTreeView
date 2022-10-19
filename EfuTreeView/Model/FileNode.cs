@@ -7,7 +7,8 @@ namespace EfuTreeView.Model
     {
         public string Name { get; set; } = "";
 
-        public FileAttributes Type { get; set; }
+        private FileAttributes type;
+        public FileAttributes Type { get => type; set => type = value & ~FileAttributes.Directory; }
 
         public ulong? Size { get; set; }
 

@@ -8,10 +8,10 @@ namespace EfuTreeView.Tests
 {
     public class FileTreeBuilderShould
     {
-        private FileTreeBuilder _testClass;
-        private MemoryStream _fileStream;
-        private Mock<IFileSystem> _fileSystem;
-        private string _csvData = @"Filename,Size,Date Modified,Date Created,Attributes
+        private readonly FileTreeBuilder _testClass;
+        private readonly MemoryStream _fileStream;
+        private readonly Mock<IFileSystem> _fileSystem;
+        private readonly string _csvData = @"Filename,Size,Date Modified,Date Created,Attributes
 ""C:\ARCH\!dos\UNPACK\AUTOH_II\FILE_ID.DIZ"",136,124228557160000000,,0
 ""C:\ARCH\UniExtract2\bin\file"",,131218716436078096,,16
 ""C:\ARCH\UniExtract2\bin\file\bin\file.exe"",45056,128861543380000000,,0
