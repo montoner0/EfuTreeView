@@ -5,7 +5,7 @@ using EfuTreeView.Model;
 
 namespace EfuTreeView
 {
-    public interface IFileTreeBuilder
+    public interface IFileTree
     {
         IEnumerable<IFileTreeNode> GetNode(string? nodePath = null);
     }

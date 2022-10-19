@@ -6,9 +6,9 @@ using Moq;
 
 namespace EfuTreeView.Tests
 {
-    public class FileTreeBuilderShould
+    public class FileTreeShould
     {
-        private readonly FileTreeBuilder _testClass;
+        private readonly FileTree _testClass;
         private readonly MemoryStream _fileStream;
         private readonly Mock<IFileSystem> _fileSystem;
         private readonly string _csvData = @"Filename,Size,Date Modified,Date Created,Attributes
@@ -26,10 +26,10 @@ namespace EfuTreeView.Tests
 ""C:\Perl\html\lib\DBI\ProfileSubs.html"",1472,129692004360648274,,0
 ";
 
-        public FileTreeBuilderShould()
+        public FileTreeShould()
         {
             using var fileStream = new MemoryStream(Encoding.UTF8.GetBytes(_csvData));
-            _testClass = FileTreeBuilder.BuildFromStream(fileStream);
+            _testClass = FileTree.BuildFromStream(fileStream);
 
             _fileStream = new MemoryStream(Encoding.UTF8.GetBytes(_csvData));
 
@@ -46,7 +46,7 @@ namespace EfuTreeView.Tests
             var fileStream = _fileStream;
 
             // Act
-            var result = FileTreeBuilder.BuildFromStream(fileStream);
+            var result = FileTree.BuildFromStream(fileStream);
 
             // Assert
             result.Should().NotBeNull();
@@ -55,7 +55,7 @@ namespace EfuTreeView.Tests
         [Fact]
         public void Cannot_Call_BuildFromStream_WithNull_FileStream()
         {
-            FluentActions.Invoking(() => FileTreeBuilder.BuildFromStream(default(Stream)!)).Should().Throw<ArgumentNullException>();
+            FluentActions.Invoking(() => FileTree.BuildFromStream(default(Stream)!)).Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
@@ -66,7 +66,7 @@ namespace EfuTreeView.Tests
             var fileDataSource = _fileSystem;
 
             // Act
-            var result = FileTreeBuilder.BuildFromEfuFile(filePath, fileDataSource.Object);
+            var result = FileTree.BuildFromEfuFile(filePath, fileDataSource.Object);
 
             // Assert
             result.Should().NotBeNull();
@@ -75,7 +75,7 @@ namespace EfuTreeView.Tests
         [Fact]
         public void Cannot_Call_BuildFromEfuFile_WithNull_FileDataSource()
         {
-            FluentActions.Invoking(() => FileTreeBuilder.BuildFromEfuFile("TestValue1887281688", default(IFileSystem)!)).Should().Throw<ArgumentNullException>();
+            FluentActions.Invoking(() => FileTree.BuildFromEfuFile("TestValue1887281688", default(IFileSystem)!)).Should().Throw<ArgumentNullException>();
         }
 
         [Theory]
@@ -84,7 +84,7 @@ namespace EfuTreeView.Tests
         [InlineData("   ")]
         public void Cannot_Call_BuildFromEfuFile_WithInvalid_FilePath(string value)
         {
-            FluentActions.Invoking(() => FileTreeBuilder.BuildFromEfuFile(value, _fileSystem.Object)).Should().Throw<ArgumentNullException>();
+            FluentActions.Invoking(() => FileTree.BuildFromEfuFile(value, _fileSystem.Object)).Should().Throw<ArgumentNullException>();
         }
 
         [Theory]

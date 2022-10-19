@@ -7,7 +7,7 @@ using EfuTreeView.Model;
 
 namespace EfuTreeView
 {
-    public class DummyFileTree : IFileTreeBuilder
+    public class DummyFileTree : IFileTree
     {
         private readonly List<IFileTreeNode> _fileTree = new()
         {

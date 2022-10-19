@@ -11,22 +11,22 @@ using EfuTreeView.Model;
 
 namespace EfuTreeView
 {
-    public sealed class FileTreeBuilder : IFileTreeBuilder
+    public sealed class FileTree : IFileTree
     {
         private readonly IEnumerable<EfuItem> _efuItems;
 
-        private FileTreeBuilder(IEnumerable<EfuItem> data) => _efuItems = data;
+        private FileTree(IEnumerable<EfuItem> data) => _efuItems = data;
 
-        public static FileTreeBuilder BuildFromStream(Stream fileStream)
+        public static FileTree BuildFromStream(Stream fileStream)
         {
             using var reader = new StreamReader(fileStream);
             using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture) { Encoding = Encoding.UTF8 });
             csv.Context.RegisterClassMap<EfuItemMap>();
             var efuItems = csv.GetRecords<EfuItem>();
-            return new FileTreeBuilder(efuItems.ToList());
+            return new FileTree(efuItems.ToList());
         }
 
-        public static FileTreeBuilder BuildFromEfuFile(string filePath, IFileSystem fileSystem)
+        public static FileTree BuildFromEfuFile(string filePath, IFileSystem fileSystem)
         {
             if (fileSystem is null) {
                 throw new ArgumentNullException(nameof(fileSystem));
