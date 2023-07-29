@@ -41,24 +41,31 @@ namespace EfuTreeView
             nodePath = nodePath?.Trim();
             IEnumerable<EfuItem> items = string.IsNullOrEmpty(nodePath)
                 ? _efuItems
-                : _efuItems.Where(e => e.Path.StartsWith(nodePath, StringComparison.OrdinalIgnoreCase) && e.Path.Length > nodePath.Length);
+                : _efuItems.Where(e => e.Path.StartsWith($"{nodePath}\\", StringComparison.OrdinalIgnoreCase)/* && e.Path.Length > nodePath.Length*/);
 
             return items.GroupBy(e => e.Path[(nodePath?.Length + 1 ?? 0)..].Split("\\")[0]).Select(g => {
                 var efu = g.First();
-                return efu.Attributes.HasFlag(FileAttributes.Directory) || efu.Path != $"{nodePath}\\{g.Key}"
+                return efu.Attributes.HasFlag(FileAttributes.Directory)
                         ? new FolderNode {
                             Name = g.Key,
                             Path = efu.Path,
-                            DateCreated = efu.DateCreated ?? default,
-                            DateModified = efu.DateModified ?? default,
+                            DateCreated = efu.DateCreated,
+                            DateModified = efu.DateModified,
                         }
-                        : new FileNode {
-                            Name = g.Key,
-                            DateCreated = efu.DateCreated ?? default,
-                            DateModified = efu.DateModified ?? default,
-                            Type = efu.Attributes,
-                            Size = efu.Size
-                        } as IFileTreeNode;
+                        : efu.Path != $"{nodePath}\\{g.Key}"
+                            ? new FolderNode {
+                                Name = g.Key,
+                                Path = efu.Path,
+                                DateCreated = default,
+                                DateModified = default,
+                            }
+                            : new FileNode {
+                                Name = g.Key,
+                                DateCreated = efu.DateCreated,
+                                DateModified = efu.DateModified,
+                                Type = efu.Attributes,
+                                Size = efu.Size
+                            } as IFileTreeNode;
             });
         }
     }

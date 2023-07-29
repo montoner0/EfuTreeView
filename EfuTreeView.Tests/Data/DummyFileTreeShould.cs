@@ -1,6 +1,3 @@
-using EfuTreeView;
-using System;
-using Xunit;
 using FluentAssertions;
 
 namespace EfuTreeView.Tests
@@ -25,8 +22,8 @@ namespace EfuTreeView.Tests
             var result = _testClass.GetNode(path);
 
             // Assert
-            result.Where(n => n.Type.HasFlag(FileAttributes.Directory)).Should().HaveCount(dirsCount);
-            result.Where(n => !n.Type.HasFlag(FileAttributes.Directory)).Should().HaveCount(filesCount);
+            result.Where(n => n.Type?.HasFlag(FileAttributes.Directory) == true).Should().HaveCount(dirsCount);
+            result.Where(n => n.Type?.HasFlag(FileAttributes.Directory) != true).Should().HaveCount(filesCount);
         }
     }
 }

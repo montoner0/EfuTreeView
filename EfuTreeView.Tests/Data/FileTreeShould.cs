@@ -102,8 +102,8 @@ namespace EfuTreeView.Tests
             var result = _testClass.GetNode(nodePath);
 
             // Assert
-            result.Where(n=> n.Type.HasFlag(FileAttributes.Directory)).Should().HaveCount(dirsCount);
-            result.Where(n=> !n.Type.HasFlag(FileAttributes.Directory)).Should().HaveCount(filesCount);
+            result.Where(n=> n.Type?.HasFlag(FileAttributes.Directory) == true).Should().HaveCount(dirsCount);
+            result.Where(n=> n.Type?.HasFlag(FileAttributes.Directory) != true).Should().HaveCount(filesCount);
         }
 
         //[Theory]

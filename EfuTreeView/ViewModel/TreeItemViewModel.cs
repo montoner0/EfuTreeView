@@ -6,12 +6,10 @@ namespace EfuTreeView.ViewModel
 {
     public class TreeItemViewModel : ViewModelBase, ITreeItemViewModel
     {
-        private string? _selected;
+        private SelectedInfo _selected = new();
         private bool _isSelected;
         private bool _isExpanded;
-        private readonly NodeData? _nodeData;
-
-        protected static ITreeItemViewModel _dummy { get; } = new TreeItemViewModel(null, new() { Name = "Loading Data ..." });
+        protected readonly NodeData? _nodeData;
 
         public TreeItemViewModel(ITreeItemViewModel? parent, NodeData? nodeData)
         {
@@ -19,7 +17,7 @@ namespace EfuTreeView.ViewModel
             _nodeData = nodeData;
         }
 
-        public string? SelectedInfo
+        public SelectedInfo SelectedInfo
         {
             get => _selected;
             set {
@@ -42,7 +40,7 @@ namespace EfuTreeView.ViewModel
                     _isSelected = value;
                     RaisePropertyChanged();
                     if (_isSelected) {
-                        SelectedInfo = $"{NodeInfo}";
+                        SelectedInfo = GetSelectedInfo();
                     }
                 }
             }
@@ -57,28 +55,37 @@ namespace EfuTreeView.ViewModel
                     RaisePropertyChanged();
                     if (_isExpanded && HasDummyChild) {
                         LoadChildren();
-                        Nodes?.Remove(_dummy);
+                        Nodes?.Remove(Dummy);
                     }
                 }
             }
         }
 
-        public bool HasDummyChild => Nodes?.Any(n => n == _dummy) == true;
+        protected static ITreeItemViewModel Dummy { get; } = new TreeItemViewModel(null, new() { Name = "Loading Data ..." });
 
-        public virtual string NodeInfo =>
-            $"{_nodeData?.Size.GetValueOrDefault().FormatBytes(false),20} | {_nodeData?.DateModified} | {_nodeData?.DateCreated}{(_nodeData?.Attributes == 0 ? "" : $" | {_nodeData?.Attributes}")}";
+        private bool HasDummyChild => Nodes?.Any(n => n == Dummy) == true;
 
         public ITreeItemViewModel? Parent { get; }
 
         public virtual ObservableCollection<ITreeItemViewModel> Nodes { get; } = new();
 
-        public string Name => _nodeData?.Name ?? "";
-
-        public NodeData NodeData => _nodeData ?? new();
+        public string Name => _nodeData?.Name ?? "?";
 
         public string CurrentPath =>
             string.IsNullOrEmpty(Parent?.CurrentPath) ? _nodeData?.Name ?? "" : $"{Parent.CurrentPath}\\{_nodeData?.Name}";
 
         protected virtual void LoadChildren() { }
+
+        protected virtual SelectedInfo GetSelectedInfo()
+        {
+            return new() {
+                Name = Name,
+                Path = CurrentPath,
+                Size = _nodeData?.Size.GetValueOrDefault().FormatBytes(false) ?? "?",
+                DateCreated = _nodeData?.DateCreated?.ToString() ?? "?",
+                DateModified = _nodeData?.DateModified?.ToString() ?? "?",
+                Attributes = _nodeData?.Attributes == null ? "?" : _nodeData.Attributes == 0 ? "" : $"{_nodeData?.Attributes}"
+            };
+        }
     }
 }

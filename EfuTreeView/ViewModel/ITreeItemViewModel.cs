@@ -8,7 +8,6 @@ namespace EfuTreeView.ViewModel
         string CurrentPath { get; }
         ObservableCollection<ITreeItemViewModel>? Nodes { get; }
         string Name { get; }
-        string? SelectedInfo { get; set; }
-        NodeData NodeData { get; }
+        SelectedInfo SelectedInfo { get; set; }
     }
 }

@@ -7,8 +7,8 @@ namespace EfuTreeView.ViewModel
     {
         public string Name { get; set; } = "";
         public ulong? Size { get; set; }
-        public DateTime DateModified { get; set; }
-        public DateTime DateCreated { get; set; }
-        public FileAttributes Attributes { get; set; }
+        public DateTime? DateModified { get; set; }
+        public DateTime? DateCreated { get; set; }
+        public FileAttributes? Attributes { get; set; }
     }
 }

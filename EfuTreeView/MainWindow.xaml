@@ -4,8 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="clr-namespace:EfuTreeView.ViewModel"
     Title="efu tree view"
-    Width="300"
-    Height="341"
+    Width="500"
+    Height="541"
     FontFamily="Tahoma"
     ResizeMode="CanResizeWithGrip"
     WindowStyle="ThreeDBorderWindow">
@@ -22,15 +22,36 @@
 
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem HorizontalAlignment="Left">
-                <TextBlock Text="{Binding SelectedInfo}" />
-                <!--<TextBlock  Text="{Binding Name}" />-->
+                <TextBlock Text="{Binding SelectedInfo.Path}" />
             </StatusBarItem>
-            <!--<StatusBarItem HorizontalAlignment="Left">
-                    -->
-            <!--<TextBlock Text="{Binding SelectedInfo}" />-->
-            <!--
-                <TextBlock DataContext="{Binding NodeData}" Text="{Binding Name}" />
-            </StatusBarItem>-->
+            <StatusBarItem HorizontalAlignment="Right" Grid.Column="1">
+                <TextBlock Text="{Binding SelectedInfo.Size}" />
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Left" Grid.Column="2">
+                <TextBlock Text="{Binding SelectedInfo.DateModified}" />
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Left" Grid.Column="3">
+                <TextBlock Text="{Binding SelectedInfo.DateCreated}" />
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Left" Grid.Column="4">
+                <TextBlock Text="{Binding SelectedInfo.Attributes}" />
+            </StatusBarItem>
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"  />
+                            <ColumnDefinition Width="*" MaxWidth="100" MinWidth="60"/>
+                            <ColumnDefinition Width="*" MaxWidth="150" MinWidth="125"/>
+                            <ColumnDefinition Width="*" MaxWidth="150" MinWidth="125"/>
+                            <ColumnDefinition Width="*" MaxWidth="200"/>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
         </StatusBar>
 
         <TreeView x:Name="treeView"

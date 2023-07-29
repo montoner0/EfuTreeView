@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using EfuTreeView.Model;
 
@@ -25,7 +24,7 @@ namespace EfuTreeView.ViewModel
                 DateModified = folder.DateModified
             })
         {
-            Nodes.Add(_dummy);
+            Nodes.Add(Dummy);
             _fileTreeBuilder = fileTreeBuilder;
         }
 
@@ -43,6 +42,13 @@ namespace EfuTreeView.ViewModel
                        FolderNode dir => new FolderNodeViewModel(this, dir, _fileTreeBuilder) as ITreeItemViewModel,
                        _ => throw new ArgumentException("Unknown node type", $"{n.GetType()}")
                    });
+        }
+
+        protected override SelectedInfo GetSelectedInfo()
+        {
+            var si = base.GetSelectedInfo();
+            si.Size = "";
+            return si;
         }
     }
 }

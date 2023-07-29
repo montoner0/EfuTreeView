@@ -6,8 +6,8 @@ namespace EfuTreeView.Model
     public interface IFileTreeNode
     {
         public string Name { get; }
-        public FileAttributes Type { get; }
-        public DateTime DateModified { get; }
-        public DateTime DateCreated { get; }
+        public FileAttributes? Type { get; }
+        public DateTime? DateModified { get; }
+        public DateTime? DateCreated { get; }
     }
 }

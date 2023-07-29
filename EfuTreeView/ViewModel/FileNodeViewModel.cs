@@ -1,5 +1,4 @@
-﻿using System;
-using EfuTreeView.Model;
+﻿using EfuTreeView.Model;
 
 namespace EfuTreeView.ViewModel
 {
